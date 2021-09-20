@@ -1,0 +1,29 @@
+header{
+    background-color: rgb(10, 83, 83);
+    color: whitesmoke;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.full-container{
+    height: 100%;
+}
+
+#city-search{
+    border: dashed black 2px;
+    height: 26%;
+}
+#previous-searches{
+    border: dashed rgb(160, 14, 14) 2px;
+    height: 74%;
+}
+#weather-today{
+    border: dashed rgb(14, 80, 160) 2px;
+    height: 45%;
+}
+#weather-forecast{
+    border: dashed rgb(187, 225, 16) 2px;
+    height: 55%;
+}

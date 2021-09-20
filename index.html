@@ -4,10 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Weather Dashboard</title>
 </head>
 <body>
+    <header>
+        <h1>
+            Weather Dashboard
+        </h1>
+    </header>
+    <main>
+        <div id="full-container" class="row">
+            <div class="col-3 min-vw-25">
+                <div class="row" id="city-search">
+                    <div class="mb-3 ml-3">
+                        <label for="exampleFormControlInput1" class="form-label">Search a city</label>
+                        <input type="email" class="form-control" id="cityInput" placeholder="Please choose a city.">
+                        <button id=search-button>Search</button>
+                      </div>
+                </div>
+                <div class="row" id="previous-searches">
+                    <!-- dynamically at li's here -->
+                </div>
+
+            </div>
+            <div class="col-9 vh-100">
+                    <div class="row" id="weather-today">
+                        <!-- dynamically add today's weather here -->
+                    </div>
+                    <div class="row" id="weather-forecast">
+                        <!-- dynamically add cards here -->
+
+                    </div>
+
+            </div>
+        </div>
+    </main>
     
     <script src="./assets/js/script.js"></script>
 </body>
