@@ -21,8 +21,6 @@ function renderFutureCards(city){
       })
       .then(function (data) {
           console.log(data);
-          renderTodayCard(data)
-          renderFutureCards(data);
         })
 
 }
@@ -41,9 +39,11 @@ function renderTodayCard (city){
        let cityName = document.createElement('h1');
        cityName.innerHTML = city + ' (' + moment().format("MM-DD-YY") + ')';
        let weatherIcon = document.createElement('img');
-       console.log(data.weather.icon);
-       weatherIcon.setAttribute('href', 'http://openweathermap.org/img/wn/'+ data.weather.icon + '@2x.png')
+       console.log(data.weather[0].icon);
+       weatherIcon.setAttribute('src', 'http://openweathermap.org/img/wn/'+ data.weather[0].icon + '@2x.png')
+       cityName.appendChild(weatherIcon);
        todayCardEl.appendChild(cityName);
+       
       })
 
 };
