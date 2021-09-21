@@ -43,6 +43,17 @@ function renderTodayCard (city){
        weatherIcon.setAttribute('src', 'http://openweathermap.org/img/wn/'+ data.weather[0].icon + '@2x.png')
        cityName.appendChild(weatherIcon);
        todayCardEl.appendChild(cityName);
+       let todayUl = document.createElement('ul');
+       let tempLi = document.createElement ('li');
+       tempLi.innerHTML = 'Temp: ' + data.main.temp + '°F';
+       todayUl.appendChild(tempLi);
+       let windLi = document.createElement ('li');
+       windLi.innerHTML = 'Wind: ' + data.wind.speed + ' MPH';
+       todayUl.appendChild(windLi);
+       let humidLi = document.createElement ('li');
+       humidLi.innerHTML = 'Humidity: ' + data.main.humidity + '%';
+       todayUl.appendChild(humidLi);
+       todayCardEl.appendChild(todayUl);
        
       })
 

@@ -27,3 +27,20 @@ header{
     border: dashed rgb(187, 225, 16) 2px;
     height: 55%;
 }
+
+@media screen and (max-width: 768px) {
+   
+    #city-search{
+        height: 15%;
+    }
+    #previous-searches{
+        height: 20%;
+    }
+    #weather-today{
+        height: 30%;
+    }
+    #weather-forecast{
+        height: 35%;
+    }
+    }
+  
