@@ -5,12 +5,31 @@
 let cityInputEl = document.getElementById('cityInput');
 let searchButtonEl = document.getElementById('search-button');
 let previousSearchEl = document.getElementById('prev-search-btns');
+let todayCardEl = document.getElementById('weather-today');
 let previousSearches = [];
 
 
-function getWeatherData (city){
 
-    let requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=b6cf514b1b8a55f68c735702f7fe14d4';
+function renderFutureCards(city){
+
+    let requestUrl = 'https://api.openweathermap.org/data/2.5/forecast?q='+ city +'&appid=95ef123b38c031799d08dde42cb52cf2&units=imperial';
+
+    fetch(requestUrl)
+      .then(function (response) {
+        console.log(response);
+        return response.json();
+      })
+      .then(function (data) {
+          console.log(data);
+          renderTodayCard(data)
+          renderFutureCards(data);
+        })
+
+}
+
+function renderTodayCard (city){
+
+    let requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=95ef123b38c031799d08dde42cb52cf2&units=imperial';
 
   fetch(requestUrl)
     .then(function (response) {
@@ -19,6 +38,12 @@ function getWeatherData (city){
     })
     .then(function (data) {
         console.log(data);
+       let cityName = document.createElement('h1');
+       cityName.innerHTML = city + ' (' + moment().format("MM-DD-YY") + ')';
+       let weatherIcon = document.createElement('img');
+       console.log(data.weather.icon);
+       weatherIcon.setAttribute('href', 'http://openweathermap.org/img/wn/'+ data.weather.icon + '@2x.png')
+       todayCardEl.appendChild(cityName);
       })
 
 };
@@ -54,7 +79,8 @@ searchButtonEl.onclick = function(){
         
     }
 
-    getWeatherData(currentSearch);
+    renderTodayCard(currentSearch);
+    // renderFutureCards(currentSearch);
     //save the input value to local storage, with an index affixed. Create a variable as index.
 
     //create buttons that are appended into previous search container as list items. If there are more than 10 search items, pop the last one push them into the front (shift?)
