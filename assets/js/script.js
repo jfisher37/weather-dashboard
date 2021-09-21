@@ -10,7 +10,7 @@ let previousSearches = [];
 
 function getWeatherData (city){
 
-    let requestUrl = 'api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=95ef123b38c031799d08dde42cb52cf2';
+    let requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=b6cf514b1b8a55f68c735702f7fe14d4';
 
   fetch(requestUrl)
     .then(function (response) {
