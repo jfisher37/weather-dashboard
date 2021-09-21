@@ -8,6 +8,21 @@ let previousSearchEl = document.getElementById('prev-search-btns');
 let previousSearches = [];
 
 
+function getWeatherData (city){
+
+    let requestUrl = 'api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=95ef123b38c031799d08dde42cb52cf2';
+
+  fetch(requestUrl)
+    .then(function (response) {
+      console.log(response);
+      return response.json();
+    })
+    .then(function (data) {
+        console.log(data);
+      })
+
+};
+
     // create button functionality
 searchButtonEl.onclick = function(){
     if (!cityInputEl.value){
@@ -38,10 +53,15 @@ searchButtonEl.onclick = function(){
         previousSearchEl.appendChild(newButtonLi);
         
     }
+
+    getWeatherData(currentSearch);
     //save the input value to local storage, with an index affixed. Create a variable as index.
 
     //create buttons that are appended into previous search container as list items. If there are more than 10 search items, pop the last one push them into the front (shift?)
 }
+
+    // create function that will fetch API data and push it into today and future cards
+
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
 // WHEN I view current weather conditions for that city
 // THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
