@@ -10,6 +10,25 @@ let previousSearches = [];
 let todayUl = document.createElement('ul');
 let forecastEl = document.getElementById('weather-forecast');
 
+
+
+function loadPrevSearches(){
+   
+    for (let i = 0; i< previousSearches.length; i++){
+        if (localStorage.getItem('prevCity['+ i + ']')){
+        let storredSearches = localStorage.getItem('prevCity['+ i + ']')
+        let prevSearchButtons = document.createElement('button');
+        prevSearchButtons.setAttribute('class', 'prevSearchButton');
+        prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
+        prevSearchButtons.innerHTML = storredSearches[i];
+        let newButtonLi = document.createElement('li');
+        newButtonLi.appendChild(prevSearchButtons);
+        previousSearchEl.appendChild(newButtonLi);
+    };
+        
+}
+}
+
 function generateAllCards(data, container, name, specUl){
    
        let weatherIcon = document.createElement('img');
@@ -131,44 +150,121 @@ function renderTodayCard (city){
 
 // };
 
-    // create button functionality
-searchButtonEl.onclick = function(){
-    if (!cityInputEl.value){
-        return;
-    };
-    if(previousSearches.includes(cityInputEl.value)){
-        return;
-    };
-    if (previousSearches.length > 9) {
-        previousSearches.pop();
+function search (){
+
+    while (todayCardEl.hasChildNodes()){
+        todayCardEl.removeChild(todayCardEl.firstChild)
     };
 
-    let currentSearch = cityInputEl.value; 
-    previousSearches.unshift(currentSearch)
-    console.log(previousSearches);
-    while (previousSearchEl.hasChildNodes()){
-        previousSearchEl.removeChild(previousSearchEl.firstChild)
+    while (todayUl.hasChildNodes()){
+        todayUl.removeChild(todayUl.firstChild)
     };
 
-    for (let i = 0; i< previousSearches.length; i++){
-        localStorage.setItem('prevCity['+ i + ']', previousSearches[i]);
-        let prevSearchButtons = document.createElement('button');
-        prevSearchButtons.setAttribute('class', 'prevSearchButton');
-        prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
-        prevSearchButtons.innerHTML = previousSearches[i];
-        let newButtonLi = document.createElement('li');
-        newButtonLi.appendChild(prevSearchButtons);
-        previousSearchEl.appendChild(newButtonLi);
-        
+    while (forecastEl.hasChildNodes()){
+        forecastEl.removeChild(forecastEl.firstChild)
+    };
+    {
+        if (!cityInputEl.value){
+            return;
+        };
+        if(previousSearches.includes(cityInputEl.value)){
+            return;
+        };
+        if (previousSearches.length > 9) {
+            previousSearches.pop();
+        };
+    
+        let currentSearch = cityInputEl.value; 
+        previousSearches.unshift(currentSearch)
+        console.log(previousSearches);
+        while (previousSearchEl.hasChildNodes()){
+            previousSearchEl.removeChild(previousSearchEl.firstChild)
+        };
+    
+        for (let i = 0; i< previousSearches.length; i++){
+            localStorage.setItem('prevCity['+ i + ']', previousSearches[i]);
+            let prevSearchButtons = document.createElement('button');
+            prevSearchButtons.setAttribute('class', 'prevSearchButton');
+            prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
+            prevSearchButtons.innerHTML = previousSearches[i];
+            let newButtonLi = document.createElement('li');
+            newButtonLi.appendChild(prevSearchButtons);
+            previousSearchEl.appendChild(newButtonLi);
+            
+        }
+    
+        renderTodayCard(currentSearch);
+        renderFutureCards(currentSearch);
+        //save the input value to local storage, with an index affixed. Create a variable as index.
+    
+        //create buttons that are appended into previous search container as list items. If there are more than 10 search items, pop the last one push them into the front (shift?)
     }
-
-    renderTodayCard(currentSearch);
-    renderFutureCards(currentSearch);
-    //save the input value to local storage, with an index affixed. Create a variable as index.
-
-    //create buttons that are appended into previous search container as list items. If there are more than 10 search items, pop the last one push them into the front (shift?)
 }
 
+previousSearchEl.addEventListener('click', function(e){
+    console.log(e.target.tagName);
+    if (e.target.tagName === "BUTTON"){
+        while (todayCardEl.hasChildNodes()){
+            todayCardEl.removeChild(todayCardEl.firstChild)
+        };
+    
+        while (todayUl.hasChildNodes()){
+            todayUl.removeChild(todayUl.firstChild)
+        };
+    
+        while (forecastEl.hasChildNodes()){
+            forecastEl.removeChild(forecastEl.firstChild)
+        };
+        renderTodayCard(e.target.innerHTML);
+        renderFutureCards(e.target.innerHTML);
+    }
+
+})
+
+    // create button functionality
+searchButtonEl.addEventListener('click', search);
+// cityInputEl.addEventListener('submit', function (e) {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     search();
+// });
+//     if (!cityInputEl.value){
+//         return;
+//     };
+//     if(previousSearches.includes(cityInputEl.value)){
+//         return;
+//     };
+//     if (previousSearches.length > 9) {
+//         previousSearches.pop();
+//     };
+
+//     let currentSearch = cityInputEl.value; 
+//     previousSearches.unshift(currentSearch)
+//     console.log(previousSearches);
+//     while (previousSearchEl.hasChildNodes()){
+//         previousSearchEl.removeChild(previousSearchEl.firstChild)
+//     };
+
+//     for (let i = 0; i< previousSearches.length; i++){
+//         localStorage.setItem('prevCity['+ i + ']', previousSearches[i]);
+//         let prevSearchButtons = document.createElement('button');
+//         prevSearchButtons.setAttribute('class', 'prevSearchButton');
+//         prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
+//         prevSearchButtons.innerHTML = previousSearches[i];
+//         let newButtonLi = document.createElement('li');
+//         newButtonLi.appendChild(prevSearchButtons);
+//         previousSearchEl.appendChild(newButtonLi);
+        
+//     }
+
+//     renderTodayCard(currentSearch);
+//     renderFutureCards(currentSearch);
+//     //save the input value to local storage, with an index affixed. Create a variable as index.
+
+//     //create buttons that are appended into previous search container as list items. If there are more than 10 search items, pop the last one push them into the front (shift?)
+// }
+
+// loadPrevSearches();
     // create function that will fetch API data and push it into today and future cards
 
 // THEN I am presented with current and future conditions for that city and that city is added to the search history
