@@ -61,11 +61,14 @@ function renderFutureCards(city){
       })
       .then(function (data) {
           console.log(data);
+          let forecastTitle = document.createElement("h2");
+          forecastTitle.innerHTML = "Five Day Forecast";
+          forecastEl.appendChild(forecastTitle);
           for (let i = 3; i < 38; i+=8){
               let forecastContainer = document.createElement("div")
-              let boxUl = document.createElement("ul")
+              let boxUl = document.createElement("ul");
               boxUl.setAttribute('class', 'forecast-cards');
-              forecastContainer.setAttribute('style', 'background-color: blue; color: white; border: solid black 1px; padding: 10px; height: 200px; width: 150px');
+              forecastContainer.setAttribute('style', 'background-color: blue; color: white; border: solid black 1px; padding: 10px; height: 200px; width: 150px; margin-bottom: 20px;');
               forecastContainer.appendChild(boxUl);
               forecastEl.appendChild(forecastContainer);
               let dateLine = document.createElement('li');
@@ -173,6 +176,8 @@ function search (){
         if (previousSearches.length > 9) {
             previousSearches.pop();
         };
+
+        todayCardEl.setAttribute('style', 'border: solid black 2px');
     
         let currentSearch = cityInputEl.value; 
         previousSearches.unshift(currentSearch)
