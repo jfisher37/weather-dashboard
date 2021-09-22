@@ -10,24 +10,70 @@ let previousSearches = [];
 let todayUl = document.createElement('ul');
 let forecastEl = document.getElementById('weather-forecast');
 
+function storredButtonsGen() {
+    if (localStorage.prevCity0) {
+        previousSearches.push(localStorage.prevCity0);
+    }
+    if (localStorage.prevCity1) {
+        previousSearches.push(localStorage.prevCity1);
+    }
+    if (localStorage.prevCity2) {
+        previousSearches.push(localStorage.prevCity2);
+    }
+    if (localStorage.prevCity3) {
+        previousSearches.push(localStorage.prevCity3);
+    }
+    if (localStorage.prevCity4) {
+        previousSearches.push(localStorage.prevCity4);
+    }
+    if (localStorage.prevCity5) {
+        previousSearches.push(localStorage.prevCity5);
+    }
+    if (localStorage.prevCity6) {
+        previousSearches.push(localStorage.prevCity6);
+    }
+    if (localStorage.prevCity7) {
+        previousSearches.push(localStorage.prevCity7);
+    }
+    if (localStorage.prevCity8) {
+        previousSearches.push(localStorage.prevCity8);
+    }
+    if (localStorage.prevCity9) {
+        previousSearches.push(localStorage.prevCity9);
+    }
+    if (localStorage.prevCity10) {
+        previousSearches.push(localStorage.prevCity10);
+    }
+    console.log(previousSearches);
+    for (let i = 0; i < previousSearches.length; i++){
+    let prevSearchButtons = document.createElement('button');
+    prevSearchButtons.setAttribute('class', 'prevSearchButton');
+    prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
+    prevSearchButtons.innerHTML = previousSearches[i];
+    let newButtonLi = document.createElement('li');
+    newButtonLi.appendChild(prevSearchButtons);
+    previousSearchEl.appendChild(newButtonLi);
+}
+}
 
 
-function loadPrevSearches(){
+
+// function loadPrevSearches(){
    
-    for (let i = 0; i< previousSearches.length; i++){
-        if (localStorage.getItem('prevCity['+ i + ']')){
-        let storredSearches = localStorage.getItem('prevCity['+ i + ']')
-        let prevSearchButtons = document.createElement('button');
-        prevSearchButtons.setAttribute('class', 'prevSearchButton');
-        prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
-        prevSearchButtons.innerHTML = storredSearches[i];
-        let newButtonLi = document.createElement('li');
-        newButtonLi.appendChild(prevSearchButtons);
-        previousSearchEl.appendChild(newButtonLi);
-    };
+//     for (let i = 0; i< previousSearches.length; i++){
+//         if (localStorage.getItem('prevCity['+ i + ']')){
+//         let storredSearches = localStorage.getItem('prevCity['+ i + ']')
+//         let prevSearchButtons = document.createElement('button');
+//         prevSearchButtons.setAttribute('class', 'prevSearchButton');
+//         prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
+//         prevSearchButtons.innerHTML = storredSearches[i];
+//         let newButtonLi = document.createElement('li');
+//         newButtonLi.appendChild(prevSearchButtons);
+//         previousSearchEl.appendChild(newButtonLi);
+//     };
         
-}
-}
+// }
+// }
 
 function generateAllCards(data, container, name, specUl){
    
@@ -86,8 +132,10 @@ function renderFutureCards(city){
 
 function renderTodayCard (city){
 
-    let requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=95ef123b38c031799d08dde42cb52cf2&units=imperial';
+    todayCardEl.setAttribute('style', 'border: solid black 2px');
 
+    let requestUrl = 'https://api.openweathermap.org/data/2.5/weather?q='+ city +'&appid=95ef123b38c031799d08dde42cb52cf2&units=imperial';
+    
     let cityName = document.createElement('h1');
     cityName.innerHTML = city + ' (' + moment().format("MM-DD-YY") + ')';
     todayCardEl.appendChild(cityName);
@@ -177,7 +225,7 @@ function search (){
             previousSearches.pop();
         };
 
-        todayCardEl.setAttribute('style', 'border: solid black 2px');
+        
     
         let currentSearch = cityInputEl.value; 
         previousSearches.unshift(currentSearch)
@@ -187,7 +235,7 @@ function search (){
         };
     
         for (let i = 0; i< previousSearches.length; i++){
-            localStorage.setItem('prevCity['+ i + ']', previousSearches[i]);
+            localStorage.setItem('prevCity'+ i, previousSearches[i]);
             let prevSearchButtons = document.createElement('button');
             prevSearchButtons.setAttribute('class', 'prevSearchButton');
             prevSearchButtons.setAttribute('id', 'prevSearchButton['+ i + ']');
@@ -227,6 +275,7 @@ previousSearchEl.addEventListener('click', function(e){
 })
 
     // create button functionality
+storredButtonsGen();
 searchButtonEl.addEventListener('click', search);
 // cityInputEl.addEventListener('submit', function (e) {
 //     e.preventDefault();
