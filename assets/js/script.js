@@ -8,25 +8,27 @@ let previousSearchEl = document.getElementById('prev-search-btns');
 let todayCardEl = document.getElementById('weather-today');
 let previousSearches = [];
 let todayUl = document.createElement('ul');
+let forecastEl = document.getElementById('weather-forecast');
 
-function generateAllCards(data, container, name){
+function generateAllCards(data, container, name, specUl){
    
        let weatherIcon = document.createElement('img');
        console.log(data.weather[0].icon);
        weatherIcon.setAttribute('src', 'http://openweathermap.org/img/wn/'+ data.weather[0].icon + '@2x.png')
+       weatherIcon.setAttribute('style', 'width: 50px; height: 50px')
        name.appendChild(weatherIcon);
        
        
        let tempLi = document.createElement ('li');
        tempLi.innerHTML = 'Temp: ' + data.main.temp + '°F';
-       todayUl.appendChild(tempLi);
+       specUl.appendChild(tempLi);
        let windLi = document.createElement ('li');
        windLi.innerHTML = 'Wind: ' + data.wind.speed + ' MPH';
-       todayUl.appendChild(windLi);
+       specUl.appendChild(windLi);
        let humidLi = document.createElement ('li');
        humidLi.innerHTML = 'Humidity: ' + data.main.humidity + '%';
-       todayUl.appendChild(humidLi);
-       container.appendChild(todayUl);
+       specUl.appendChild(humidLi);
+       container.appendChild(specUl);
 }
 
 function renderFutureCards(city){
@@ -40,6 +42,22 @@ function renderFutureCards(city){
       })
       .then(function (data) {
           console.log(data);
+          for (let i = 3; i < 38; i+=8){
+              let forecastContainer = document.createElement("div")
+              let boxUl = document.createElement("ul")
+              boxUl.setAttribute('class', 'forecast-cards');
+              forecastContainer.setAttribute('style', 'background-color: blue; color: white; border: solid black 1px; padding: 10px; height: 200px; width: 150px');
+              forecastContainer.appendChild(boxUl);
+              forecastEl.appendChild(forecastContainer);
+              let dateLine = document.createElement('li');
+              console.log(data.list[i].dt_txt);
+              dateLine.innerHTML = moment(data.list[i].dt_txt, 'YYYY-MM-DD HH:mm:ss').format('MM/DD/YYYY');
+              dateLine.setAttribute("style", "font-weight: 700")
+              boxUl.appendChild(dateLine);
+              let iconLi = document.createElement('li');
+              boxUl.appendChild(iconLi);
+              generateAllCards(data.list[i], forecastContainer, iconLi, boxUl);
+          }
         })
 
 }
@@ -58,7 +76,7 @@ function renderTodayCard (city){
       return response.json();
     })
     .then(function (data){
-        generateAllCards(data, todayCardEl, cityName);
+        generateAllCards(data, todayCardEl, cityName, todayUl);
         let latLonUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + data.coord.lat + '&lon=' + data.coord.lon + '&appid=95ef123b38c031799d08dde42cb52cf2&units=imperial';
        
         fetch(latLonUrl)
@@ -145,7 +163,7 @@ searchButtonEl.onclick = function(){
     }
 
     renderTodayCard(currentSearch);
-    // renderFutureCards(currentSearch);
+    renderFutureCards(currentSearch);
     //save the input value to local storage, with an index affixed. Create a variable as index.
 
     //create buttons that are appended into previous search container as list items. If there are more than 10 search items, pop the last one push them into the front (shift?)
